@@ -32,9 +32,9 @@ jobs:
       - name: Deploy Firebase Hosting
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting:logif
+          args: deploy --only hosting:logif-tcc
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LOGIF_TCC }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_PATH: ./
 
 #    - uses: FirebaseExtended/action-hosting-deploy@v0
