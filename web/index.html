@@ -37,6 +37,8 @@
   <script type="module">
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-analytics.js";
+
     // TODO: Add SDKs for Firebase products that you want to use
     // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -47,11 +49,13 @@
       projectId: "logif-tcc",
       storageBucket: "logif-tcc.appspot.com",
       messagingSenderId: "538751272855",
-      appId: "1:538751272855:web:d03597de32d7b8d2f7a6d2"
+      appId: "1:538751272855:web:d03597de32d7b8d2f7a6d2",
+      measurementId: "G-7700TP9QX1"
     };
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
   </script>
 
   <title>logif</title>
@@ -126,9 +130,9 @@
     }
   </script>
 
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <div id="g_id_onload" data-client_id="115980600126-j9tvh45kr89d05pttka8glfh5a9s347d.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
-  <div class="g_id_signin" data-type="standard"></div>
+<!--  <script src="https://accounts.google.com/gsi/client" async defer></script>-->
+<!--  <div id="g_id_onload" data-client_id="115980600126-j9tvh45kr89d05pttka8glfh5a9s347d.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>-->
+<!--  <div class="g_id_signin" data-type="standard"></div>-->
 
 </body>
 </html>

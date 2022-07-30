@@ -16,7 +16,7 @@ class GoogleSignInProvider extends ChangeNotifier {
       if(googleUser == null) return;
       _user = googleUser;
 
-      final googleAuth = await googleUser.  authentication;
+      final googleAuth = await googleUser.authentication;
 
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
