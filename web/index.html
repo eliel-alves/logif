@@ -32,6 +32,8 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
+  <meta name="google-signin-client_id" content="115980600126-j9tvh45kr89d05pttka8glfh5a9s347d.apps.googleusercontent.com">
+
   <script type="module">
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.1/firebase-app.js";
@@ -123,5 +125,10 @@
       loadMainDartJs();
     }
   </script>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <div id="g_id_onload" data-client_id="115980600126-j9tvh45kr89d05pttka8glfh5a9s347d.apps.googleusercontent.com" data-callback="handleCredentialResponse"></div>
+  <div class="g_id_signin" data-type="standard"></div>
+
 </body>
 </html>
