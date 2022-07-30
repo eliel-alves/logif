@@ -8,16 +8,37 @@ name: Deploy para Firebase Hosting
       - main
 jobs:
   build_and_deploy:
+    name: Deploy do App Web
     runs-on: ubuntu-latest
     steps:
+      # Verifica repositório
       - uses: actions/checkout@v2
-      - run: >-
+
+      # Instalando flutter
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'dev'
+
+      # Buildando a aplicação
+      - name: Build Website
+        run: |
           flutter config --enable-web
           flutter pub get
           flutter build web --release
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+        working-directory: ./
+
+      # Deploy da aplicação
+      - name: Deploy Firebase Hosting
+        uses: w9jds/firebase-action@master
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LOGIF_TCC }}'
-          channelId: live
-          projectId: logif-tcc
+          args: deploy --only hosting:logif-tcc
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LOGIF_TCC }}
+          PROJECT_PATH: ./
+
+#    - uses: FirebaseExtended/action-hosting-deploy@v0
+#      with:
+#        repoToken: '${{ secrets.GITHUB_TOKEN }}'
+#        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LOGIF_TCC }}'
+#        channelId: live
+#        projectId: logif-tcc
