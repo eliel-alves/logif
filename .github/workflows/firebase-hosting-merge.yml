@@ -6,6 +6,7 @@ name: Deploy para Firebase Hosting
   push:
     branches:
       - master
+
 jobs:
   build_and_deploy:
     name: Deploy do App Web
