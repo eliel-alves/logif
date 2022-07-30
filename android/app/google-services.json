@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "538751272855",
+    "project_id": "logif-tcc",
+    "storage_bucket": "logif-tcc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:538751272855:android:46d37abdae551f12f7a6d2",
+        "android_client_info": {
+          "package_name": "com.example.logif"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "538751272855-ucacoatih7olh7u2fj2hhnq371qalid3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.logif",
+            "certificate_hash": "58f36af7b617e19c8e4159f64b5ac94202e5078c"
+          }
+        },
+        {
+          "client_id": "538751272855-av5dlhpor0v4kd8h0fvs2m91k1id87fj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrKUkxTekXoSGxY7OZaSGA_S8ajcPJrUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "538751272855-av5dlhpor0v4kd8h0fvs2m91k1id87fj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "538751272855-imimk1ud30pp5bbsq6vvi15275ak9bi5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.logif"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
