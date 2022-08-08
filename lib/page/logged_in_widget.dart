@@ -17,16 +17,14 @@ class LoggedInMainPage extends StatefulWidget {
 class _LoggedInMainPageState extends State<LoggedInMainPage> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      drawer: NavigationDrawerWidget(),
-      appBar: AppBar(
-        title: const Text('Categorias de Estudo'),
-        centerTitle: true,
-      ),
-      backgroundColor: AppTheme.colors.light,
-      body: const CategoriesWidget()
-    );
+        drawer: NavigationDrawerWidget(),
+        appBar: AppBar(
+          title: const Text('Categorias de Estudo'),
+          centerTitle: true,
+        ),
+        backgroundColor: AppTheme.colors.light,
+        body: const CategoriesWidget());
   }
 }
 
@@ -37,7 +35,7 @@ class CategoriesWidget extends StatefulWidget {
   _CategoriesWidgetState createState() => _CategoriesWidgetState();
 }
 
-class _CategoriesWidgetState extends State<CategoriesWidget>{
+class _CategoriesWidgetState extends State<CategoriesWidget> {
   final FirebaseFirestore db = FirestoreDatabase.get();
   final user = FirebaseAuth.instance.currentUser!;
 
@@ -50,8 +48,8 @@ class _CategoriesWidgetState extends State<CategoriesWidget>{
     return Container(
       child: StreamBuilder<QuerySnapshot>(
         stream: _getCategories(),
-        builder: (_, snapshot){
-          switch(snapshot.connectionState) {
+        builder: (_, snapshot) {
+          switch (snapshot.connectionState) {
             case ConnectionState.none:
             case ConnectionState.waiting:
               return const Center(
@@ -59,15 +57,16 @@ class _CategoriesWidgetState extends State<CategoriesWidget>{
               );
             case ConnectionState.active:
             case ConnectionState.done:
-              if(snapshot.data!.docs.isEmpty) {
+              if (snapshot.data!.docs.isEmpty) {
                 return Center(
-                  child: Text('Não possui categorias!', style: TextStyle(color: AppTheme.colors.dark))
-                );
+                    child: Text('Não possui categorias!',
+                        style: TextStyle(color: AppTheme.colors.dark)));
               }
               return ListView.builder(
-                padding: const EdgeInsets.only(top: 20, right: 20, left: 20, bottom: 0),
+                padding: const EdgeInsets.only(
+                    top: 20, right: 20, left: 20, bottom: 0),
                 itemCount: snapshot.data!.docs.length,
-                itemBuilder: (_,index) {
+                itemBuilder: (_, index) {
                   final DocumentSnapshot doc = snapshot.data!.docs[index];
                   return _category(doc);
                 },
@@ -85,10 +84,10 @@ Widget _category(DocumentSnapshot doc) {
   final totalCards = doc['total_cards'];
   final totalPoints = doc['value_points'];
 
-  if(doc['difficulty'] == 1) {
+  if (doc['difficulty'] == 1) {
     difficulty = 'Iniciante';
     color = AppTheme.colors.green;
-  } else if(doc['difficulty'] == 2) {
+  } else if (doc['difficulty'] == 2) {
     difficulty = 'Intermediário';
     color = AppTheme.colors.yellow;
   } else {
@@ -99,8 +98,8 @@ Widget _category(DocumentSnapshot doc) {
   return Container(
     margin: const EdgeInsets.only(bottom: 20),
     decoration: BoxDecoration(
-      color: AppTheme.colors.background,
-      borderRadius: BorderRadius.circular(10),
+      color: AppTheme.colors.darkBackground,
+      borderRadius: BorderRadius.circular(20),
     ),
     child: Column(
       children: [
@@ -111,7 +110,8 @@ Widget _category(DocumentSnapshot doc) {
           shape: BadgeShape.square,
           borderRadius: BorderRadius.circular(6),
           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-          badgeContent: Text(difficulty.toUpperCase(), style: AppTheme.typo.badgeText),
+          badgeContent:
+              Text(difficulty.toUpperCase(), style: AppTheme.typo.badgeText),
           badgeColor: color,
           toAnimate: false,
         ),
@@ -121,26 +121,27 @@ Widget _category(DocumentSnapshot doc) {
           decoration: BoxDecoration(
             color: AppTheme.colors.light,
             border: Border.all(width: 2, color: AppTheme.colors.lightGrey),
-            borderRadius: const BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10)),
+            borderRadius: const BorderRadius.only(
+                bottomRight: Radius.circular(20),
+                bottomLeft: Radius.circular(20)),
           ),
           child: IntrinsicHeight(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 addSpace(),
-
-                Icon(Icons.library_books_outlined, color: AppTheme.colors.purple),
+                Icon(Icons.library_books_outlined,
+                    color: AppTheme.colors.purple),
                 addHorizontalSpace(10),
                 Text('$totalCards Cards', style: AppTheme.typo.lightIconText),
-
                 addSpace(),
-                VerticalDivider(color: AppTheme.colors.lightGrey, width: 1, thickness: 2),
+                VerticalDivider(
+                    color: AppTheme.colors.lightGrey, width: 1, thickness: 2),
                 addSpace(),
-
-                Icon(Icons.workspace_premium_outlined, color: AppTheme.colors.purple),
+                Icon(Icons.workspace_premium_outlined,
+                    color: AppTheme.colors.purple),
                 addHorizontalSpace(10),
                 Text('$totalPoints Pontos', style: AppTheme.typo.lightIconText),
-
                 addSpace()
               ],
             ),

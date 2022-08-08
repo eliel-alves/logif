@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.15.0 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -56,6 +56,9 @@ dependencies:
   # URL Launch
   url_launcher: ^6.1.5
 
+  # intl
+  intl: ^0.17.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -73,9 +76,9 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "lib/assets/images/favicon-do-app.png"
-  adaptative_icon_background: "#ffffff"
-  adaptative_icon_foreground: "lib/assets/images/favicon-do-app_foreground.png"
+  image_path: "lib/assets/images/icon-app.png"
+  adaptive_icon_background: "#5B66FF"
+  adaptive_icon_foreground: "lib/assets/images/icon-app-foreground-v2.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

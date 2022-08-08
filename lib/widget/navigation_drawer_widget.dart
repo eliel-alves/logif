@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:logif/page/app_info_page.dart';
 import 'package:logif/page/home_page.dart';
 import 'package:logif/page/logged_in_widget.dart';
-import 'package:logif/page/profile_widget.dart';
+import 'package:logif/page/profile_page.dart';
 import 'package:logif/page/ranking_page.dart';
 import 'package:logif/provider/google_sign_in.dart';
 import 'package:logif/theme/app_theme.dart';

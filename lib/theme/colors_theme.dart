@@ -12,7 +12,8 @@ class AppColors {
   final white = const Color(0xffFFFFFF);
   final black = const Color(0xff000000);
   final lightGrey = const Color(0xffCEDADC);
-  final background = const Color(0xff122031);
+  final darkBackground = const Color(0xff122031);
+  final darkBackgroundVariation = const Color.fromARGB(30, 255, 255, 255);
   final primary = const Color(0xff80ED99);
   final primaryBorder = const Color(0xff56C070);
   final secondary = const Color(0xffC7F9CC);

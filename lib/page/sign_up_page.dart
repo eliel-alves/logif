@@ -18,8 +18,8 @@ class SignUpPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Spacer(),
-          Image.asset('lib/assets/images/logo-do-app-dark.png', width: 200),
+          addSpace(),
+          Image.asset('lib/assets/images/logo-do-app-dark-v2.png', width: 200),
           addVerticalSpace(20),
           Align(
             alignment: Alignment.center,
@@ -41,7 +41,7 @@ class SignUpPage extends StatelessWidget {
             },
           ),
           addVerticalSpace(20),
-          const Spacer(),
+          addSpace(),
           const TextButton(
             onPressed: _launchUrlGithub,
             child: Text('App desenvolvido por Eliel Alves')
