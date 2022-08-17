@@ -59,6 +59,9 @@ dependencies:
   # intl
   intl: ^0.17.0
 
+  # HTML parser
+  flutter_html: ^2.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

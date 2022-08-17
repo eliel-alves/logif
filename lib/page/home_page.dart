@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:logif/page/logged_in_widget.dart';
+import 'package:logif/page/categories_list_page.dart';
 import 'package:logif/page/sign_up_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasData) {
-              return const LoggedInMainPage();
+              return const CategoriesPage();
             }
             if (snapshot.hasError) {
               return const Center(child: Text('Ocorreu algum erro!'));

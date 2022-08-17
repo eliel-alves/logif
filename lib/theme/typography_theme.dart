@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
 
 import 'package:logif/theme/app_theme.dart';
 
@@ -8,6 +7,10 @@ class AppTypo {
   // Texto para Títulos
   final title = const TextStyle(
       fontFamily: 'Syne', fontSize: 18, fontWeight: FontWeight.w700);
+
+  // Texto do Quiz
+  final quizTitle = const TextStyle(
+      fontFamily: 'Syne', fontSize: 24, fontWeight: FontWeight.w700);
 
   // Texto para Subtítulos
   final subtitle = const TextStyle(

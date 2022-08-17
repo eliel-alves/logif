@@ -12,12 +12,11 @@ class GoogleSignInProvider extends ChangeNotifier {
 
   GoogleSignInAccount get user => _user!;
 
-
   Future googleLogin() async {
     try {
       final googleUser = await googleSignIn.signIn();
 
-      if(googleUser == null) return;
+      if (googleUser == null) return;
       _user = googleUser;
 
       final googleAuth = await googleUser.authentication;
@@ -27,17 +26,18 @@ class GoogleSignInProvider extends ChangeNotifier {
         idToken: googleAuth.idToken,
       );
 
-      UserCredential newUser = await FirebaseAuth.instance.signInWithCredential(credential);
+      UserCredential newUser =
+          await FirebaseAuth.instance.signInWithCredential(credential);
       print('Id usuario: ' + newUser.user!.uid);
 
       // Adiciona usuário ao Users
       bool userExist = await checkUserExist(newUser.user?.uid);
-      if(!userExist) {
+      if (!userExist) {
         print('USUARIO NAO EXISTE');
-        await updateUserData(newUser.user?.uid, newUser.user?.email, newUser.user?.displayName, newUser.user?.photoURL);
+        await updateUserData(newUser.user?.uid, newUser.user?.email,
+            newUser.user?.displayName, newUser.user?.photoURL);
       }
-
-    } catch (e){
+    } catch (e) {
       print(e.toString());
     }
 
@@ -56,22 +56,22 @@ class GoogleSignInProvider extends ChangeNotifier {
 
       return doc.exists;
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 
   // Atualiza novos campos para o novo usuario
-  Future updateUserData(String? uid, String? email, String? fullName, String? urlPhoto) async {
+  Future updateUserData(
+      String? uid, String? email, String? fullName, String? urlPhoto) async {
     Timestamp timeNow = Timestamp.fromDate(DateTime.now());
 
     return await users.doc(uid).set({
-      'name' : fullName,
-      'email' : email,
-      'url_photo' : urlPhoto,
-      'score' : 0,
-      'completed_categories' : [],
-      'creation_date' : timeNow,
+      'name': fullName,
+      'email': email,
+      'url_photo': urlPhoto,
+      'score': 0,
+      'completed_categories': [],
+      'creation_date': timeNow,
     });
   }
-
 }

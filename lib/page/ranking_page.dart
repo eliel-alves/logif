@@ -46,7 +46,7 @@ class _RankingPageState extends State<RankingPage> {
   }
 
   Widget buildUser(UserDatabase user) => Card(
-      margin: EdgeInsets.only(bottom: 15.0),
+      margin: const EdgeInsets.only(bottom: 15.0),
       color: AppTheme.colors.darkBackgroundVariation,
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
@@ -58,10 +58,10 @@ class _RankingPageState extends State<RankingPage> {
           ),
           subtitle: Text(
             user.score.toString() + ' pontos',
-            style: TextStyle(fontFamily: 'Inter', fontSize: 14),
+            style: const TextStyle(fontFamily: 'Inter', fontSize: 14),
           ),
           trailing: Badge(
-            badgeContent: Text(
+            badgeContent: const Text(
               '1',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),

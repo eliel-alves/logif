@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:logif/databases/firestore_databases.dart';
 import 'package:logif/model/user.dart';
 import 'package:logif/theme/app_theme.dart';
 import 'package:logif/utils/helper_widgets.dart';
