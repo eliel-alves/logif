@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logif/theme/app_theme.dart';
 
-Widget primaryFullButton(String text, Function onPressed) {
+Widget primaryFullButton(String text, Function() onPressed) {
   return SizedBox(
       width: double.infinity,
       child: OutlinedButton(
@@ -19,8 +19,6 @@ Widget primaryFullButton(String text, Function onPressed) {
                 color: AppTheme.colors.purple,
                 fontSize: 16.0,
                 fontWeight: FontWeight.w500)),
-        onPressed: () {
-          onPressed;
-        },
+        onPressed: onPressed,
       ));
 }

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logif/page/categories_list_page.dart';
 import 'package:logif/page/sign_up_page.dart';
+import 'package:logif/page/test_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);

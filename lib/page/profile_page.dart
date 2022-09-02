@@ -27,7 +27,6 @@ class _ProfilePageState extends State<ProfilePage> {
       drawer: NavigationDrawerWidget(),
       appBar: AppBar(
         title: const Text('Meu Perfil'),
-        titleTextStyle: AppTheme.typo.subtitle,
         centerTitle: true,
       ),
       body: FutureBuilder<UserDatabase?>(

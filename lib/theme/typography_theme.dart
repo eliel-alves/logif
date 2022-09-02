@@ -25,6 +25,9 @@ class AppTypo {
   final normal = const TextStyle(
       fontFamily: 'Inter', fontSize: 16, fontWeight: FontWeight.w400);
 
+  final normalBold = const TextStyle(
+      fontFamily: 'Inter', fontSize: 16, fontWeight: FontWeight.bold);
+
   final littleText = TextStyle(
       fontFamily: 'Inter',
       color: AppTheme.colors.lightGrey,

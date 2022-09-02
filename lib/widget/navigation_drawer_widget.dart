@@ -5,6 +5,7 @@ import 'package:logif/page/home_page.dart';
 import 'package:logif/page/categories_list_page.dart';
 import 'package:logif/page/profile_page.dart';
 import 'package:logif/page/ranking_page.dart';
+import 'package:logif/page/test_page.dart';
 import 'package:logif/provider/google_sign_in.dart';
 import 'package:logif/theme/app_theme.dart';
 import 'package:logif/utils/helper_widgets.dart';
@@ -112,7 +113,7 @@ class NavigationDrawerWidget extends StatelessWidget {
     VoidCallback? onClicked,
   }) {
     final color = AppTheme.colors.light;
-    const hoverColor = Colors.white70;
+    const hoverColor = Colors.white24;
 
     return ListTile(
       leading: Icon(icon, color: color),

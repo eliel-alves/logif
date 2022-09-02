@@ -18,6 +18,7 @@ class AppColors {
   final primaryBorder = const Color(0xff56C070);
   final secondary = const Color(0xffC7F9CC);
   final purple = const Color(0xff5B66FF);
+  final lightPurple = const Color.fromARGB(30, 91, 102, 255);
   final darkPurple = const Color(0xff353DD0);
   final darkBlue = const Color(0xff0C0D5D);
 

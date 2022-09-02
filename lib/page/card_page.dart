@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:logif/model/card.dart';
+import 'package:logif/page/quiz_page.dart';
 import 'package:logif/theme/app_theme.dart';
 import 'package:logif/utils/helper_widgets.dart';
 import 'package:logif/widget/buttons.dart';
@@ -28,6 +29,7 @@ class _CardPageState extends State<CardPage> {
   Widget build(BuildContext context) {
     String categoryName = widget.category['name'];
     Size size = MediaQuery.of(context).size;
+    DocumentSnapshot doc = widget.category;
 
     return StreamBuilder<QuerySnapshot>(
       stream: getCards(),
@@ -52,26 +54,27 @@ class _CardPageState extends State<CardPage> {
                     urlButton: snapshot.data!.docs[index]['url_button']));
 
             return SizedBox(
-                height: size.height,
-                width: size.width,
-                child: Scaffold(
-                    appBar: AppBar(
-                      toolbarHeight: 60,
-                      title: Text(categoryName),
-                      centerTitle: true,
-                    ),
-                    body: PageView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (_, index) {
-                        //final DocumentSnapshot doc = snapshot.data!.docs[index];
+              height: size.height,
+              width: size.width,
+              child: Scaffold(
+                appBar: AppBar(
+                  toolbarHeight: 60,
+                  title: Text(categoryName),
+                  centerTitle: true,
+                ),
+                body: PageView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (_, index) {
+                    //final DocumentSnapshot doc = snapshot.data!.docs[index];
 
-                        return BuildCards(
-                            index: index,
-                            cards: cards,
-                            categoryName: categoryName);
-                      },
-                    )));
+                    return BuildCards(
+                        index: index,
+                        cards: cards,
+                        categoryName: categoryName,
+                        doc: doc);
+                  },
+              )));
         }
       },
     );
@@ -90,13 +93,15 @@ class _CardPageState extends State<CardPage> {
 class BuildCards extends StatefulWidget {
   final List<CategoryCard> cards;
   final String categoryName;
+  final DocumentSnapshot doc;
   int index;
 
   BuildCards(
       {Key? key,
       required this.index,
       required this.cards,
-      required this.categoryName})
+      required this.categoryName,
+      required this.doc})
       : super(key: key);
 
   @override
@@ -106,6 +111,7 @@ class BuildCards extends StatefulWidget {
 class _BuildCardsState extends State<BuildCards> {
   @override
   Widget build(BuildContext context) {
+    debugPrint(widget.doc.toString());
     // Verifica se usuario visualizou todos os cards
     if (widget.index != widget.cards.length) {
       return Column(
@@ -188,15 +194,6 @@ class _BuildCardsState extends State<BuildCards> {
       );
     }
 
-    Function backStudy() {
-      void f() {
-        widget.index = 0;
-        Navigator.of(context).pop();
-      }
-
-      return f;
-    }
-
     // Tela de Pre-quiz
     return Container(
         padding: const EdgeInsets.all(20),
@@ -232,37 +229,21 @@ class _BuildCardsState extends State<BuildCards> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: AppTheme.buttons.buttonPrimary,
-                  child: const Text('Sim, estou! 😉'),
+                  child: const Text('Sim, estou!'),
                   onPressed: () {
-                    // TODO
-                    // Iniciar o quiz da categoria selecionada
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Quiz(doc: widget.doc),
+                    ));
                   },
                 )),
             addVerticalSpace(10),
             primaryFullButton(
-                'Ainda não, preciso estudar mais 😢', backStudy()),
-            // SizedBox(
-            //     width: double.infinity,
-            //     child: OutlinedButton(
-            //       style: OutlinedButton.styleFrom(
-            //           padding: const EdgeInsets.all(17),
-            //           side: BorderSide(
-            //               width: 1.0,
-            //               style: BorderStyle.solid,
-            //               color: AppTheme.colors.purple),
-            //           shape: RoundedRectangleBorder(
-            //             borderRadius: BorderRadius.circular(10.0),
-            //           )),
-            //       child: Text('Ainda não, preciso estudar mais 😢',
-            //           style: TextStyle(
-            //               color: AppTheme.colors.purple,
-            //               fontSize: 16.0,
-            //               fontWeight: FontWeight.w500)),
-            //       onPressed: () {
-            //         widget.index = 0;
-            //         Navigator.of(context).pop();
-            //       },
-            //     )),
+              'Ainda não, preciso estudar mais',
+              () {
+                widget.index = 0;
+                Navigator.of(context).pop();
+              }
+            ),
             addSpace()
           ],
         ));
