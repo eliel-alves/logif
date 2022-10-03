@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:logif/page/app_info_page.dart';
 import 'package:logif/page/home_page.dart';
 import 'package:logif/page/categories_list_page.dart';
+import 'package:logif/page/leaderboard.dart';
 import 'package:logif/page/profile_page.dart';
 import 'package:logif/page/ranking_page.dart';
 import 'package:logif/page/test_page.dart';
@@ -47,7 +48,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                 addVerticalSpace(16),
                 buildMenuItem(
                   text: 'Ranking',
-                  icon: Icons.flag_outlined,
+                  icon: Icons.emoji_events_outlined,
                   onClicked: () => selectedItem(context, 2),
                 ),
                 addVerticalSpace(16),
@@ -143,7 +144,7 @@ class NavigationDrawerWidget extends StatelessWidget {
         break;
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const RankingPage(),
+          builder: (context) => const LeaderBoard(),
         ));
         break;
       case 3:

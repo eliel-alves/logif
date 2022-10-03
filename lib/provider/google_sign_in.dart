@@ -14,7 +14,9 @@ class GoogleSignInProvider extends ChangeNotifier {
 
   Future googleLogin() async {
     try {
+      debugPrint("Começou Google Login");
       final googleUser = await googleSignIn.signIn();
+      debugPrint("Terminou a função Google Sign In Google Login");
 
       if (googleUser == null) return;
       _user = googleUser;
@@ -28,17 +30,18 @@ class GoogleSignInProvider extends ChangeNotifier {
 
       UserCredential newUser =
           await FirebaseAuth.instance.signInWithCredential(credential);
-      print('Id usuario: ' + newUser.user!.uid);
+      debugPrint('Id usuario: ' + newUser.user!.uid);
 
       // Adiciona usuário ao Users
       bool userExist = await checkUserExist(newUser.user?.uid);
       if (!userExist) {
-        print('USUARIO NAO EXISTE');
+        debugPrint('USUARIO NAO EXISTE');     
+
         await updateUserData(newUser.user?.uid, newUser.user?.email,
             newUser.user?.displayName, newUser.user?.photoURL);
       }
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
 
     notifyListeners();
@@ -46,6 +49,7 @@ class GoogleSignInProvider extends ChangeNotifier {
 
   Future logout() async {
     await googleSignIn.disconnect();
+    debugPrint('Desconectou');
     FirebaseAuth.instance.signOut();
   }
 
@@ -70,7 +74,7 @@ class GoogleSignInProvider extends ChangeNotifier {
       'email': email,
       'url_photo': urlPhoto,
       'score': 0,
-      'completed_categories': [],
+      'categories_score': [],
       'creation_date': timeNow,
     });
   }
