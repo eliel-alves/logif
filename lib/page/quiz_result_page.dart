@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logif/theme/app_theme.dart';
 import 'package:logif/utils/helper_widgets.dart';
@@ -20,6 +21,16 @@ class QuizResultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments = ModalRoute.of(context)?.settings.arguments as Arguments;
     final catName = arguments.doc.get('name');
+    final catIndex = arguments.doc.get('order');
+    final catMaxPoints = arguments.doc.get('value_points');
+    int earnedScore = ((catMaxPoints / arguments.total) * arguments.corrects).round();
+
+    debugPrint('maximo de pontos' + catMaxPoints.toString());
+    debugPrint('index da cat: ' + catIndex.toString());
+    debugPrint('pontos ganhos: ' + earnedScore.toString());
+
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    final userDoc = FirebaseFirestore.instance.collection('users').doc(userId);
 
     return Scaffold(
         appBar: AppBar(
@@ -27,10 +38,18 @@ class QuizResultPage extends StatelessWidget {
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
-        body: Center(
-            child: Padding(
+        body: Padding(
           padding: const EdgeInsets.all(20),
-          child: Column(
+          child: _buildResult(
+            context, arguments.corrects,
+            arguments.total, earnedScore
+          )
+        ));
+  }
+}
+
+Widget _buildResult(context, corrects, total, score) {
+  return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Badge(
@@ -53,7 +72,7 @@ class QuizResultPage extends StatelessWidget {
               ),
               addVerticalSpace(5),
               Text(
-                '${arguments.corrects} de ${arguments.total}',
+                '$corrects de $total',
                 style: AppTheme.typo.normalBold,
               ),
               addVerticalSpace(5),
@@ -73,7 +92,7 @@ class QuizResultPage extends StatelessWidget {
                         color: AppTheme.colors.purple, size: 30),
                     addHorizontalSpace(5),
                     Text(
-                      '+50 pontos',
+                      score.toString() + ' pontos',
                       style: AppTheme.typo.subtitle,
                     ),
                   ],
@@ -96,7 +115,5 @@ class QuizResultPage extends StatelessWidget {
                       style: AppTheme.buttons.buttonPrimary,
                       child: const Text('Entendido'))),
             ],
-          ),
-        )));
-  }
+          );
 }

@@ -35,10 +35,22 @@ class GoogleSignInProvider extends ChangeNotifier {
       // Adiciona usuário ao Users
       bool userExist = await checkUserExist(newUser.user?.uid);
       if (!userExist) {
-        debugPrint('USUARIO NAO EXISTE');     
+        debugPrint('USUARIO NAO EXISTE');
+        var userScores = [];
+
+        final collection =
+            await FirebaseFirestore.instance.collection('categories').get();
+
+        for (var i = 0; i < collection.size; i++) {
+          userScores.add(0);
+        }
+
+        // for (var doc in collection.docs) {
+        //   doc.reference.update({'score': 0});
+        // }
 
         await updateUserData(newUser.user?.uid, newUser.user?.email,
-            newUser.user?.displayName, newUser.user?.photoURL);
+            newUser.user?.displayName, newUser.user?.photoURL, userScores);
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -66,7 +78,7 @@ class GoogleSignInProvider extends ChangeNotifier {
 
   // Atualiza novos campos para o novo usuario
   Future updateUserData(
-      String? uid, String? email, String? fullName, String? urlPhoto) async {
+      String? uid, String? email, String? fullName, String? urlPhoto, userScores) async {
     Timestamp timeNow = Timestamp.fromDate(DateTime.now());
 
     return await users.doc(uid).set({
@@ -74,7 +86,7 @@ class GoogleSignInProvider extends ChangeNotifier {
       'email': email,
       'url_photo': urlPhoto,
       'score': 0,
-      'categories_score': [],
+      'scores': userScores,
       'creation_date': timeNow,
     });
   }

@@ -14,11 +14,9 @@ class LeaderBoard extends StatefulWidget {
 
 class _LeaderBoardState extends State<LeaderBoard> {
   int i = 0;
-  Color my = Colors.brown, checkMyColor = Colors.white;
 
   @override
   Widget build(BuildContext context) {
-    var medal = const TextStyle(color: Colors.purpleAccent, fontSize: 30);
 
     return Scaffold(
         drawer: NavigationDrawerWidget(),
@@ -32,34 +30,48 @@ class _LeaderBoardState extends State<LeaderBoard> {
                 .orderBy('score', descending: true)
                 .snapshots(),
             builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                debugPrint(snapshot.error.toString());
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                  return Center(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                        Text('Carregando', style: AppTheme.typo.title),
+                        addVerticalSpace(20),
+                        const CircularProgressIndicator()
+                      ]));
+                case ConnectionState.active:
+                case ConnectionState.done:
+                  if (snapshot.hasError) {
+                    debugPrint(snapshot.error.toString());
 
-                return const Text(
-                    'Ocorreu algum erro ao tentar recuperar o ranking');
-              } else if (snapshot.hasData) {
-                i = 0;
+                    return const Text(
+                        'Ocorreu algum erro ao tentar recuperar o ranking');
+                  } else if (snapshot.hasData) {
+                    i = 0;
 
-                // Todos os docs
-                final data = snapshot.data!;
+                    // Todos os docs
+                    final data = snapshot.data!;
 
-                // Index do Jogador Logado
-                var currentUserIndex = 0;
-                var ind = 0;
+                    // Index do Jogador Logado
+                    var currentUserIndex = 0;
+                    var ind = 0;
 
-                // Descobrindo a posicao do usuario atual
-                for (var doc in data.docs) {
-                  if (doc.id == FirebaseAuth.instance.currentUser!.uid) {
-                    currentUserIndex = ind;
-                  } else {
-                    ind++;
-                  }
-                }
+                    // Descobrindo a posicao do usuario atual
+                    for (var doc in data.docs) {
+                      if (doc.id == FirebaseAuth.instance.currentUser!.uid) {
+                        currentUserIndex = ind;
+                      } else {
+                        ind++;
+                      }
+                    }
 
-                return Column(
-                  children: [
-                    Expanded(
-                        child: ListView.builder(
+                    return Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
                             padding: const EdgeInsets.all(15),
                             itemCount: data.docs.length,
                             itemBuilder: (context, index) {
@@ -78,165 +90,153 @@ class _LeaderBoardState extends State<LeaderBoard> {
                                 }
                               }
 
-                              return Card(
-                                margin: const EdgeInsets.only(bottom: 15.0),
-                                color: AppTheme.colors.darkBackgroundVariation,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: i == 0
-                                              ? Colors.amber
-                                              : i == 1
-                                                  ? Colors.grey
-                                                  : i == 2
-                                                      ? Colors.brown
-                                                      : AppTheme.colors
-                                                          .darkBackgroundVariation,
-                                          width: i == 0
-                                              ? 2
-                                              : i == 1
-                                                  ? 2
-                                                  : i == 2
-                                                      ? 2
-                                                      : 1,
-                                          style: BorderStyle.solid),
-                                      borderRadius: BorderRadius.circular(15)),
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Column(
-                                    children: <Widget>[
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 5, left: 5, bottom: 5),
-                                            child: CircleAvatar(
-                                                child: Container(
-                                                    decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        image: DecorationImage(
-                                                          image: NetworkImage(
-                                                              data.docs[index][
-                                                                  'url_photo']),
-                                                        )))),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                Container(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Text(
-                                                      data.docs[index]['name'],
-                                                      style:
-                                                          AppTheme.typo.title,
-                                                      maxLines: 6,
-                                                    )),
-                                                Text(
-                                                    "Pontos: " +
-                                                        data.docs[index]
-                                                                ['score']
-                                                            .toString(),
-                                                    style: const TextStyle(
-                                                        color: Colors.white70,
-                                                        fontFamily: 'Inter',
-                                                        fontSize: 15)),
-                                              ],
-                                            ),
-                                          ),
-                                          const Spacer(),
-                                          i == 0
-                                              ? Text("🥇", style: medal)
-                                              : i == 1
-                                                  ? Text("🥈", style: medal)
-                                                  : i == 2
-                                                      ? Text("🥉", style: medal)
-                                                      : Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(10),
-                                                          child: Text(
-                                                              (index + 1)
-                                                                      .toString() +
-                                                                  'º',
-                                                              style: const TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 22,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                        )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                              return buildUserScore(
+                                index,
+                                context,
+                                data.docs[index]['url_photo'],
+                                data.docs[index]['name'],
+                                data.docs[index]['score']
                               );
                             })),
-                    Card(
-                        color: AppTheme.colors.purple,
-                        margin: const EdgeInsets.all(0),
-                        elevation: 5,
-                        child: Padding(
-                            padding: const EdgeInsets.all(20),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.emoji_events_outlined,
-                                  size: 30,
-                                  color: Colors.deepPurple.shade100,
-                                ),
-                                addHorizontalSpace(10),
-                                Text( 'Sua posição: ',
-                                    style: AppTheme.typo.normalBold),
-                                currentUserIndex == 0
-                                  ? const Text('🥇',
-                                      style: TextStyle(fontSize: 25)
-                                    )
-                                  : currentUserIndex == 1
-                                  ? const Text('🥈',
-                                      style: TextStyle(fontSize: 25)
-                                    )
-                                  : currentUserIndex == 2
-                                  ? const Text('🥉',
-                                      style: TextStyle(fontSize: 25)
-                                    )
-                                  : Text(
-                                      (currentUserIndex+1).toString() + 'º',
-                                      style: AppTheme.typo.normalBold
-                                    ),
-                                const Spacer(),
-                                Icon(Icons.workspace_premium_outlined,
-                                    size: 30,
-                                    color: Colors.deepPurple.shade100,),
-                                addHorizontalSpace(10),
-                                Text(
-                                    data.docs[currentUserIndex]['score']
-                                            .toString() +
-                                        ' Pontos',
-                                    style: AppTheme.typo.normalBold),
-                              ],
-                            )))
-                  ],
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                        buildAtualUserPosition(currentUserIndex,
+                            data.docs[currentUserIndex]['score'])
+                      ],
+                    );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
               }
             }));
   }
+}
+
+Widget buildUserScore(
+  userIndex, context, userPhoto, userName, userScore
+) {
+  var medal = const TextStyle(fontSize: 30);
+
+  return Card(
+    margin: const EdgeInsets.only(bottom: 15.0),
+    color: AppTheme.colors.darkBackgroundVariation,
+    elevation: 0,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    child: Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          border: Border.all(
+              color: userIndex == 0
+                  ? Colors.amber
+                  : userIndex == 1
+                      ? Colors.grey
+                      : userIndex == 2
+                          ? Colors.brown
+                          : AppTheme.colors.darkBackgroundVariation,
+              width: userIndex == 0
+                  ? 2
+                  : userIndex == 1
+                      ? 2
+                      : userIndex == 2
+                          ? 2
+                          : 1,
+              style: BorderStyle.solid),
+          borderRadius: BorderRadius.circular(15)),
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 5, left: 5, bottom: 5),
+                child: CircleAvatar(
+                    child: Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image:
+                                  NetworkImage(userPhoto),
+                            )))),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          userName,
+                          style: AppTheme.typo.title,
+                          maxLines: 6,
+                        )),
+                    Text("Pontos: " + userScore.toString(),
+                        style: const TextStyle(
+                            color: Colors.white70,
+                            fontFamily: 'Inter',
+                            fontSize: 15)),
+                  ],
+                ),
+              ),
+              const Spacer(),
+              userIndex == 0
+                  ? Text("🥇", style: medal)
+                  : userIndex == 1
+                      ? Text("🥈", style: medal)
+                      : userIndex == 2
+                          ? Text("🥉", style: medal)
+                          : Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Text((userIndex + 1).toString() + 'º',
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold)),
+                            )
+            ],
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget buildAtualUserPosition(int userIndex, int userScore) {
+  return Card(
+      color: AppTheme.colors.purple,
+      margin: const EdgeInsets.all(0),
+      elevation: 5,
+      child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            children: [
+              Icon(
+                Icons.emoji_events_outlined,
+                size: 30,
+                color: Colors.deepPurple.shade100,
+              ),
+              addHorizontalSpace(10),
+              Text('Sua posição: ', style: AppTheme.typo.normalBold),
+              userIndex == 0
+                  ? const Text('🥇', style: TextStyle(fontSize: 25))
+                  : userIndex == 1
+                      ? const Text('🥈', style: TextStyle(fontSize: 25))
+                      : userIndex == 2
+                          ? const Text('🥉', style: TextStyle(fontSize: 25))
+                          : Text((userIndex + 1).toString() + 'º',
+                              style: AppTheme.typo.normalBold),
+              const Spacer(),
+              Icon(
+                Icons.workspace_premium_outlined,
+                size: 30,
+                color: Colors.deepPurple.shade100,
+              ),
+              addHorizontalSpace(10),
+              Text(userScore.toString() + ' Pontos',
+                  style: AppTheme.typo.normalBold),
+            ],
+          )));
 }

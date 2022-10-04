@@ -26,7 +26,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       drawer: NavigationDrawerWidget(),
       appBar: AppBar(
-        title: const Text('Meu Perfil'),
+        title: const Text('Meu Perfil'),  
         centerTitle: true,
       ),
       body: FutureBuilder<UserDatabase?>(
@@ -98,14 +98,14 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget buildInfoIcon(IconData icon, String text) => Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(icon, color: AppTheme.colors.purple),
-            addHorizontalSpace(10),
-            Text(
-              text,
-              style: AppTheme.typo.normal,
-            )
-          ]);
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Icon(icon, color: AppTheme.colors.purple),
+      addHorizontalSpace(10),
+      Text(
+        text,
+        style: AppTheme.typo.normal,
+      )
+    ]);
 }
