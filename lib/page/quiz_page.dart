@@ -18,9 +18,6 @@ class Quiz extends StatefulWidget {
 }
 
 List<Question> shuffle(List<Question> shuffleList, List<dynamic> json) {
-  debugPrint('Criou lista de perguntas');
-  debugPrint(shuffleList.length.toString());
-
   // Limpa lista antiga
   shuffleList.clear();
 
@@ -52,12 +49,6 @@ List<Question> shuffle(List<Question> shuffleList, List<dynamic> json) {
     shuffleList.add(Question.fromMap(question));
   }
 
-  debugPrint('embaralhou');
-
-  for (var question in shuffleList) {
-    debugPrint(question.question);
-  }
-
   return shuffleList;
 }
 
@@ -70,10 +61,8 @@ class _QuizState extends State<Quiz> {
   @override
   Widget build(BuildContext context) {
     void answered(int answerIndex) {
-      debugPrint('pergunta $questionNumber and ${questionList.length}');
       setState(() {
         if (questionList[questionNumber - 1].correctAnswer == answerIndex) {
-          debugPrint('acertou pergunta $questionNumber');
           corrects++;
         } else {
           errors++;
@@ -92,7 +81,6 @@ class _QuizState extends State<Quiz> {
     }
 
     Future<List<Question>>? _getQuestions() async {
-      debugPrint('entrou');
       final FirebaseFirestore db = FirestoreDatabase.get();
       List<Question> list = [];
 
@@ -102,14 +90,10 @@ class _QuizState extends State<Quiz> {
           .collection('questions')
           .get();
 
-      debugPrint('pegou as questions');
-
       for (var subCollDoc in subCollQuerySnapshot.docs) {
         list.add(Question.fromMap(subCollDoc.data()));
-        debugPrint('add 1');
       }
-
-      debugPrint('adicionou na lista');
+    
       // return data.docs.map<Question>(Question.fromJson).toList();
       // return subCollQuerySnapshot.docs.map<Question>((json) => Question.fromJson(json as Map<String, dynamic>)).toList();
 
@@ -142,7 +126,6 @@ class _QuizState extends State<Quiz> {
 
                       for (var q in questions) {
                         temp.add(q.toJson());
-                        debugPrint(temp.toString());
                       }
 
                       questionList = shuffle(questions, temp);

@@ -6,7 +6,7 @@ class AppButtons {
   // Botão Primário
   final buttonPrimary = ButtonStyle(
       padding: MaterialStateProperty.all<EdgeInsets>(
-          const EdgeInsets.symmetric(horizontal: 25.0, vertical: 17.0)),
+          const EdgeInsets.symmetric(horizontal: 25.0, vertical: 23.0)),
       shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10.0),
           side: BorderSide(
@@ -20,7 +20,7 @@ class AppButtons {
   // Botao Secundario
   final buttonSecondary = ButtonStyle(
     padding: MaterialStateProperty.all<EdgeInsets>(
-        const EdgeInsets.symmetric(horizontal: 25.0, vertical: 17.0)),
+        const EdgeInsets.symmetric(horizontal: 25.0, vertical: 23.0)),
     shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
         side: BorderSide(
@@ -46,7 +46,7 @@ class AppButtons {
   final cardButton = ButtonStyle(
       elevation: MaterialStateProperty.all<double>(0),
       padding: MaterialStateProperty.all<EdgeInsets>(
-          const EdgeInsets.symmetric(horizontal: 15.0, vertical: 13.0)),
+          const EdgeInsets.symmetric(horizontal: 23.0, vertical: 20.0)),
       shape: MaterialStateProperty.all<OutlinedBorder>(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0))),
       backgroundColor: MaterialStateProperty.all<Color>(
@@ -57,7 +57,7 @@ class AppButtons {
   final navigationButton = ButtonStyle(
       elevation: MaterialStateProperty.all<double>(0),
       padding: MaterialStateProperty.all<EdgeInsets>(
-          const EdgeInsets.symmetric(horizontal: 50.0, vertical: 13.0)),
+          const EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0)),
       backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
       textStyle: MaterialStateProperty.all<TextStyle>(
           const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500)));

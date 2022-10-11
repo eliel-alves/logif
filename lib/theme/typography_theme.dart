@@ -6,7 +6,7 @@ import 'package:logif/theme/app_theme.dart';
 class AppTypo {
   // Texto para Títulos
   final title = const TextStyle(
-      fontFamily: 'Syne', fontSize: 18, fontWeight: FontWeight.w700);
+      fontFamily: 'Syne', fontSize: 20, fontWeight: FontWeight.w700);
 
   // Texto do Quiz
   final quizTitle = const TextStyle(

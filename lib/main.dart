@@ -4,10 +4,9 @@ import 'package:logif/firebase_options.dart';
 import 'package:logif/page/app_info_page.dart';
 import 'package:logif/page/categories_list_page.dart';
 import 'package:logif/page/home_page.dart';
-import 'package:logif/page/leaderboard.dart';
+import 'package:logif/page/leaderboard_page.dart';
 import 'package:logif/page/profile_page.dart';
 import 'package:logif/page/quiz_result_page.dart';
-import 'package:logif/page/ranking_page.dart';
 import 'package:logif/provider/google_sign_in.dart';
 import 'package:logif/theme/theme_constants.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +42,7 @@ class MyApp extends StatelessWidget {
             '/': (context) => const HomePage(),
             '/categories': (context) => const CategoriesPage(),
             '/profile': (context) => const ProfilePage(),
-            '/ranking': (context) => const LeaderBoard(),
+            '/leaderboard': (context) => const LeaderBoard(),
             '/app-info': (context) => const AppInfoPage(),
             QuizResultPage.routeName: (context) => const QuizResultPage()
           }));

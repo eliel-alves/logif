@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logif/databases/firestore_databases.dart';
+import 'package:logif/model/user.dart';
 import 'package:logif/page/card_page.dart';
 import 'package:logif/theme/app_theme.dart';
 import 'package:logif/utils/helper_widgets.dart';
@@ -37,7 +38,7 @@ class CategoriesWidget extends StatefulWidget {
 
 class _CategoriesWidgetState extends State<CategoriesWidget> {
   final FirebaseFirestore db = FirestoreDatabase.get();
-  final user = FirebaseAuth.instance.currentUser!;
+  final _authUser = FirebaseAuth.instance.currentUser!;
 
   Stream<QuerySnapshot> _getCategories() {
     return db.collection('categories').orderBy('order').snapshots();
@@ -59,6 +60,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
             if (snapshot.data!.docs.isEmpty) {
               return const Center(child: Text('Não possui categorias!'));
             }
+
             return ListView.builder(
               padding: const EdgeInsets.only(
                   top: 20, right: 20, left: 20, bottom: 0),
@@ -75,6 +77,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
 }
 
 Widget buildCategory(DocumentSnapshot doc, BuildContext context, int index) {
+  final userId = FirebaseAuth.instance.currentUser!.uid;
   final String difficulty;
   final Color color;
   final totalCards = doc['total_cards'];
@@ -92,67 +95,111 @@ Widget buildCategory(DocumentSnapshot doc, BuildContext context, int index) {
   }
 
   return GestureDetector(
-    onTap: () {
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => CardPage(category: doc),
-      ));
-      print('voce clicou na categoria ' + doc['name']);
-    },
-    child: Container(
-      margin: const EdgeInsets.only(bottom: 20),
-      decoration: BoxDecoration(
-        color: AppTheme.colors.darkBackgroundVariation,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        children: [
-          addVerticalSpace(40),
-          Text(doc['name'], style: AppTheme.typo.title),
-          addVerticalSpace(10),
-          Badge(
-            shape: BadgeShape.square,
-            borderRadius: BorderRadius.circular(6),
-            padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-            badgeContent:
-                Text(difficulty.toUpperCase(), style: AppTheme.typo.badgeText),
-            badgeColor: color,
-            toAnimate: false,
-          ),
-          addVerticalSpace(40),
-          Container(
-            padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              color: AppTheme.colors.light,
-              border: Border.all(width: 2, color: AppTheme.colors.lightGrey),
-              borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20)),
-            ),
-            child: IntrinsicHeight(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  addSpace(),
-                  Icon(Icons.library_books_outlined,
-                      color: AppTheme.colors.purple),
-                  addHorizontalSpace(10),
-                  Text('$totalCards Cards', style: AppTheme.typo.lightIconText),
-                  addSpace(),
-                  VerticalDivider(
-                      color: AppTheme.colors.lightGrey, width: 1, thickness: 2),
-                  addSpace(),
-                  Icon(Icons.workspace_premium_outlined,
-                      color: AppTheme.colors.purple),
-                  addHorizontalSpace(10),
-                  Text('$totalPoints Pontos',
-                      style: AppTheme.typo.lightIconText),
-                  addSpace()
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
-    ),
-  );
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => CardPage(category: doc),
+        ));
+        debugPrint('voce clicou na categoria ' + doc['name']);
+      },
+      child: StreamBuilder<DocumentSnapshot?>(
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(userId)
+              .snapshots(),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+              case ConnectionState.waiting:
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              case ConnectionState.active:
+              case ConnectionState.done:
+                if (snapshot.hasData) {
+                  final user = snapshot.data;
+                  var userTotalScore = user!['score'];
+                  var userScores = user['scores'];
+
+                  final double percentCompleted =
+                      (userScores[doc['order']] / totalPoints) * 100.00;
+
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    decoration: BoxDecoration(
+                      color: percentCompleted == 100
+                          ? AppTheme.colors.green
+                          : AppTheme.colors.darkBackgroundVariation,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Column(
+                      children: [
+                        addVerticalSpace(40),
+                        Text(doc['name'], style: AppTheme.typo.title),
+                        addVerticalSpace(10),
+                        Badge(
+                          shape: BadgeShape.square,
+                          borderRadius: BorderRadius.circular(6),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 6, horizontal: 10),
+                          badgeContent: Text(difficulty.toUpperCase(),
+                              style: AppTheme.typo.badgeText),
+                          badgeColor: color,
+                          toAnimate: false,
+                        ),
+                        addVerticalSpace(15),
+                        Text(
+                          percentCompleted.toStringAsFixed(0) + '% Completado',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w700
+                          )
+                        ),
+                        addVerticalSpace(40),
+                        Container(
+                          padding: const EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            color: AppTheme.colors.light,
+                            border: Border.all(
+                                width: 2, color: AppTheme.colors.lightGrey),
+                            borderRadius: const BorderRadius.only(
+                                bottomRight: Radius.circular(20),
+                                bottomLeft: Radius.circular(20)),
+                          ),
+                          child: IntrinsicHeight(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                addSpace(),
+                                Icon(Icons.library_books_outlined,
+                                    color: AppTheme.colors.purple),
+                                addHorizontalSpace(10),
+                                Text('$totalCards Cards',
+                                    style: AppTheme.typo.lightIconText),
+                                addSpace(),
+                                VerticalDivider(
+                                    color: AppTheme.colors.lightGrey,
+                                    width: 1,
+                                    thickness: 2),
+                                addSpace(),
+                                Icon(Icons.workspace_premium_outlined,
+                                    color: AppTheme.colors.purple),
+                                addHorizontalSpace(10),
+                                Text(
+                                    '${userScores[doc['order']]}/$totalPoints Pontos',
+                                    style: AppTheme.typo.lightIconText),
+                                addSpace()
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                } else {
+                  return const Center(child: Text('Houve um erro'));
+                }
+            }
+          }));
 }

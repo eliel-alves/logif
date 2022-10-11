@@ -111,7 +111,6 @@ class BuildCards extends StatefulWidget {
 class _BuildCardsState extends State<BuildCards> {
   @override
   Widget build(BuildContext context) {
-    debugPrint(widget.doc.toString());
     // Verifica se usuario visualizou todos os cards
     if (widget.index != widget.cards.length) {
       return Column(
@@ -123,7 +122,10 @@ class _BuildCardsState extends State<BuildCards> {
               Badge(
                 padding: const EdgeInsets.all(10),
                 badgeContent: Text(
-                  'CARD ' + widget.cards[widget.index].order.toString(),
+                  'CARD ' +
+                  widget.cards[widget.index].order.toString() +
+                  '/' +
+                  widget.cards.length.toString(),
                   style: AppTheme.typo.badgeText,
                 ),
                 toAnimate: false,
@@ -132,7 +134,8 @@ class _BuildCardsState extends State<BuildCards> {
                 badgeColor: AppTheme.colors.green,
               ),
               Html(data: widget.cards[widget.index].content),
-              SizedBox(
+              // Só exibe o botão do card caso tenha alguma URL inserida
+              widget.cards[widget.index].urlButton == '' ? addVerticalSpace(5) : SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
                     onPressed: () {
@@ -142,6 +145,7 @@ class _BuildCardsState extends State<BuildCards> {
                     label: const Text('Ver Mais'),
                     icon: const Icon(Icons.link)),
               )
+              
             ]),
           )),
 

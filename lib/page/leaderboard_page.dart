@@ -21,13 +21,14 @@ class _LeaderBoardState extends State<LeaderBoard> {
     return Scaffold(
         drawer: NavigationDrawerWidget(),
         appBar: AppBar(
-          title: const Text('Ranking'),
+          title: const Text('Ranking Top 15 Usuários'),
           centerTitle: true,
         ),
         body: StreamBuilder<QuerySnapshot>(
             stream: FirebaseFirestore.instance
                 .collection('users')
                 .orderBy('score', descending: true)
+                .limit(15) // limitando a 20 usuarios
                 .snapshots(),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
@@ -170,7 +171,7 @@ Widget buildUserScore(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           userName,
-                          style: AppTheme.typo.title,
+                          style: AppTheme.typo.normalBold,
                           maxLines: 6,
                         )),
                     Text("Pontos: " + userScore.toString(),

@@ -6,7 +6,7 @@ Widget primaryFullButton(String text, Function() onPressed) {
       width: double.infinity,
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-            padding: const EdgeInsets.all(17),
+            padding: const EdgeInsets.all(23),
             side: BorderSide(
                 width: 1.0,
                 style: BorderStyle.solid,
