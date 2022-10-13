@@ -8,6 +8,7 @@ import 'package:logif/page/card_page.dart';
 import 'package:logif/theme/app_theme.dart';
 import 'package:logif/utils/helper_widgets.dart';
 import 'package:logif/widget/navigation_drawer_widget.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({Key? key}) : super(key: key);
@@ -126,9 +127,30 @@ Widget buildCategory(DocumentSnapshot doc, BuildContext context, int index) {
                   return Container(
                     margin: const EdgeInsets.only(bottom: 20),
                     decoration: BoxDecoration(
-                      color: percentCompleted == 100
-                          ? AppTheme.colors.green
-                          : AppTheme.colors.darkBackgroundVariation,
+                      gradient: percentCompleted == 100
+                          ? LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomLeft,
+                              colors: [
+                                Colors.green.shade100,
+                                AppTheme.colors.green,
+                              ],
+                            )
+                          : percentCompleted > 0 ? LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomLeft,
+                              colors: [
+                                AppTheme.colors.purple,
+                                AppTheme.colors.darkPurple,
+                              ],
+                            ) : LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomLeft,
+                              colors: [
+                                AppTheme.colors.darkBackground,
+                                Colors.black45,
+                              ],
+                            ),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Column(
@@ -147,14 +169,24 @@ Widget buildCategory(DocumentSnapshot doc, BuildContext context, int index) {
                           toAnimate: false,
                         ),
                         addVerticalSpace(15),
-                        Text(
-                          percentCompleted.toStringAsFixed(0) + '% Completado',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w700
-                          )
+                        CircularPercentIndicator(
+                          radius: 30,
+                          lineWidth: 7.0,
+                          percent: percentCompleted / 100,
+                          animation: true,
+                          animationDuration: 1500,
+                          center: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(percentCompleted.toStringAsFixed(0) + '%',
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontFamily: 'Inter',
+                                        fontWeight: FontWeight.w700))
+                              ]),
+                          progressColor: Colors.white,
                         ),
                         addVerticalSpace(40),
                         Container(

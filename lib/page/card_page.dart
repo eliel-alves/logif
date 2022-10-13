@@ -54,27 +54,27 @@ class _CardPageState extends State<CardPage> {
                     urlButton: snapshot.data!.docs[index]['url_button']));
 
             return SizedBox(
-              height: size.height,
-              width: size.width,
-              child: Scaffold(
-                appBar: AppBar(
-                  toolbarHeight: 60,
-                  title: Text(categoryName),
-                  centerTitle: true,
-                ),
-                body: PageView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (_, index) {
-                    //final DocumentSnapshot doc = snapshot.data!.docs[index];
+                height: size.height,
+                width: size.width,
+                child: Scaffold(
+                    appBar: AppBar(
+                      toolbarHeight: 60,
+                      title: Text(categoryName),
+                      centerTitle: true,
+                    ),
+                    body: PageView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (_, index) {
+                        //final DocumentSnapshot doc = snapshot.data!.docs[index];
 
-                    return BuildCards(
-                        index: index,
-                        cards: cards,
-                        categoryName: categoryName,
-                        doc: doc);
-                  },
-              )));
+                        return BuildCards(
+                            index: index,
+                            cards: cards,
+                            categoryName: categoryName,
+                            doc: doc);
+                      },
+                    )));
         }
       },
     );
@@ -123,9 +123,9 @@ class _BuildCardsState extends State<BuildCards> {
                 padding: const EdgeInsets.all(10),
                 badgeContent: Text(
                   'CARD ' +
-                  widget.cards[widget.index].order.toString() +
-                  '/' +
-                  widget.cards.length.toString(),
+                      widget.cards[widget.index].order.toString() +
+                      '/' +
+                      widget.cards.length.toString(),
                   style: AppTheme.typo.badgeText,
                 ),
                 toAnimate: false,
@@ -133,19 +133,30 @@ class _BuildCardsState extends State<BuildCards> {
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
                 badgeColor: AppTheme.colors.green,
               ),
-              Html(data: widget.cards[widget.index].content),
+              Html(data: widget.cards[widget.index].content, style: _styleHtml),
               // Só exibe o botão do card caso tenha alguma URL inserida
-              widget.cards[widget.index].urlButton == '' ? addVerticalSpace(5) : SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                    onPressed: () {
-                      _launchLinkButton(widget.cards[widget.index].urlButton);
-                    },
-                    style: AppTheme.buttons.cardButton,
-                    label: const Text('Ver Mais'),
-                    icon: const Icon(Icons.link)),
-              )
-              
+              widget.cards[widget.index].urlButton == ''
+                  ? addVerticalSpace(5)
+                  : Column(children: [
+                      addVerticalSpace(20),
+                      const Text(
+                          'O conteúdo dos cards acaba por aqui, mas ainda não foi o suficiente?'),
+                      addVerticalSpace(5),
+                      const Text(
+                          'Não se preocupe, clicando no botão abaixo você pode assistir um vídeo pra estudar ainda mais sobre o assunto!'),
+                      addVerticalSpace(20),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                            onPressed: () {
+                              _launchLinkButton(
+                                  widget.cards[widget.index].urlButton);
+                            },
+                            style: AppTheme.buttons.cardButton,
+                            label: const Text('Ver Mais'),
+                            icon: const Icon(Icons.link)),
+                      )
+                    ])
             ]),
           )),
 
@@ -241,17 +252,48 @@ class _BuildCardsState extends State<BuildCards> {
                   },
                 )),
             addVerticalSpace(10),
-            primaryFullButton(
-              'Ainda não, preciso estudar mais',
-              () {
-                widget.index = 0;
-                Navigator.of(context).pop();
-              }
-            ),
+            primaryFullButton('Ainda não, preciso estudar mais', () {
+              widget.index = 0;
+              Navigator.of(context).pop();
+            }),
             addSpace()
           ],
         ));
   }
+
+  final Map<String, Style> _styleHtml = {
+    "p": Style(
+      fontFamily: 'Inter',
+      fontSize: const FontSize(16),
+    ),
+    "body": Style(
+      fontFamily: 'Inter',
+      fontSize: const FontSize(16),
+    ),
+    "h4": Style(fontSize: const FontSize(18)),
+    "table": Style(
+      fontFamily: 'Inter',
+      fontSize: const FontSize(16),
+      border: const Border(
+        bottom: BorderSide(color: Colors.grey), 
+        left: BorderSide(color: Colors.grey),
+        right: BorderSide(color: Colors.grey),
+        top: BorderSide(color: Colors.grey),
+        ),
+    ),
+    "td": Style(
+      fontFamily: 'Inter',
+      fontSize: const FontSize(16),
+    ),
+    "tr": Style(
+      fontFamily: 'Inter',
+      fontSize: const FontSize(16),
+    ),
+    "th": Style(
+      fontFamily: 'Inter',
+      fontSize: const FontSize(16),
+    )
+  };
 }
 
 Future<void> _launchLinkButton(String url) async {

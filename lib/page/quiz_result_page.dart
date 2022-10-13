@@ -32,6 +32,13 @@ class QuizResultPage extends StatelessWidget {
     }
 
     final arguments = ModalRoute.of(context)?.settings.arguments as Arguments;
+
+    debugPrint('Arguments: ' + arguments.toString());
+
+    if (arguments.doc == null) {
+      Navigator.pushNamed(context, '/');
+    }
+
     // Nome da categoria
     final catName = arguments.doc.get('name');
     // Indice da categoria (vetor de pontuações do usuario)
@@ -105,7 +112,7 @@ class QuizResultPage extends StatelessWidget {
 }
 
 Widget _buildResult(context, corrects, total, score, higher) {
-  final _normalText =
+  const _normalText =
       TextStyle(fontFamily: 'Inter', fontSize: 18, fontWeight: FontWeight.w400);
 
   return Column(
@@ -125,7 +132,7 @@ Widget _buildResult(context, corrects, total, score, higher) {
       addVerticalSpace(10),
       Text('Resultado', style: AppTheme.typo.title),
       addVerticalSpace(30),
-      Text(
+      const Text(
         'Você acertou',
         style: _normalText,
       ),
@@ -135,7 +142,7 @@ Widget _buildResult(context, corrects, total, score, higher) {
         style: _normalText,
       ),
       addVerticalSpace(5),
-      Text(
+      const Text(
         'perguntas.',
         style: _normalText,
       ),
