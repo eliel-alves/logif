@@ -18,18 +18,22 @@ class _LeaderBoardState extends State<LeaderBoard> {
   @override
   Widget build(BuildContext context) {
 
+    Stream<QuerySnapshot> _getUsers() {
+      return FirebaseFirestore.instance
+                .collection('users')
+                .orderBy('score', descending: true)
+                .snapshots();
+    }
+
     return Scaffold(
         drawer: NavigationDrawerWidget(),
         appBar: AppBar(
-          title: const Text('Ranking Top 15 Usuários'),
+          title: const Text('Ranking de Usuários'),
+          titleTextStyle: AppTheme.typo.scaffoldTitle,
           centerTitle: true,
         ),
         body: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('users')
-                .orderBy('score', descending: true)
-                .limit(15) // limitando a 20 usuarios
-                .snapshots(),
+            stream: _getUsers(),
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.none:
@@ -71,6 +75,15 @@ class _LeaderBoardState extends State<LeaderBoard> {
 
                     return Column(
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Text(
+                            'Total de usuários: ' + snapshot.data!.size.toString(),
+                            style: TextStyle(
+                              fontSize: 16,
+                            )
+                          )
+                        ),
                         Expanded(
                           child: ListView.builder(
                             padding: const EdgeInsets.all(15),
@@ -174,7 +187,7 @@ Widget buildUserScore(
                           style: AppTheme.typo.normalBold,
                           maxLines: 6,
                         )),
-                    Text("Pontos: " + userScore.toString(),
+                    Text("Pontos Totais: " + userScore.toString(),
                         style: const TextStyle(
                             color: Colors.white70,
                             fontFamily: 'Inter',
@@ -236,7 +249,7 @@ Widget buildAtualUserPosition(int userIndex, int userScore) {
                 color: Colors.deepPurple.shade100,
               ),
               addHorizontalSpace(10),
-              Text(userScore.toString() + ' Pontos',
+              Text(userScore.toString() + ' Pontos Totais',
                   style: AppTheme.typo.normalBold),
             ],
           )));

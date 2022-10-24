@@ -60,6 +60,7 @@ class _CardPageState extends State<CardPage> {
                     appBar: AppBar(
                       toolbarHeight: 60,
                       title: Text(categoryName),
+                      titleTextStyle: AppTheme.typo.scaffoldTitle,
                       centerTitle: true,
                     ),
                     body: PageView.builder(
@@ -185,7 +186,7 @@ class _BuildCardsState extends State<BuildCards> {
                         },
                       ),
                       VerticalDivider(
-                          color: AppTheme.colors.lightGrey,
+                          color: AppTheme.colors.darkBackgroundVariation,
                           width: 1,
                           thickness: 2),
                       Directionality(

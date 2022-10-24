@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logif/databases/firestore_databases.dart';
-import 'package:logif/model/user.dart';
 import 'package:logif/page/card_page.dart';
 import 'package:logif/theme/app_theme.dart';
 import 'package:logif/utils/helper_widgets.dart';
@@ -24,6 +23,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
         drawer: NavigationDrawerWidget(),
         appBar: AppBar(
           title: const Text('Categorias de Estudo'),
+          titleTextStyle: AppTheme.typo.scaffoldTitle,
           centerTitle: true,
         ),
         body: const CategoriesWidget());

@@ -2,10 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:logif/page/app_info_page.dart';
 import 'package:logif/page/home_page.dart';
-import 'package:logif/page/categories_list_page.dart';
 import 'package:logif/page/leaderboard_page.dart';
 import 'package:logif/page/profile_page.dart';
-import 'package:logif/page/test_page.dart';
 import 'package:logif/provider/google_sign_in.dart';
 import 'package:logif/theme/app_theme.dart';
 import 'package:logif/utils/helper_widgets.dart';
@@ -132,9 +130,7 @@ class NavigationDrawerWidget extends StatelessWidget {
 
     switch (index) {
       case 0:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const CategoriesPage(),
-        ));
+        Navigator.pushNamed(context, '/');
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(

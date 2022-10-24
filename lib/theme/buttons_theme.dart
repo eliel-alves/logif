@@ -15,7 +15,7 @@ class AppButtons {
               color: AppTheme.colors.darkPurple))),
       backgroundColor: MaterialStateProperty.all<Color>(AppTheme.colors.purple),
       textStyle: MaterialStateProperty.all<TextStyle>(
-          const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500)));
+          const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500, fontFamily: 'Inter')));
 
   // Botao Secundario
   final buttonSecondary = ButtonStyle(
@@ -31,6 +31,7 @@ class AppButtons {
     textStyle: MaterialStateProperty.all<TextStyle>(const TextStyle(
       fontSize: 16.0,
       fontWeight: FontWeight.w500,
+      fontFamily: 'Inter',
     )),
   );
 
@@ -39,6 +40,7 @@ class AppButtons {
     textStyle: MaterialStateProperty.all<TextStyle>(const TextStyle(
       fontSize: 16.0,
       fontWeight: FontWeight.w500,
+      fontFamily: 'Inter',
     )),
   );
 
@@ -52,7 +54,7 @@ class AppButtons {
       backgroundColor: MaterialStateProperty.all<Color>(
           AppTheme.colors.darkBackgroundVariation),
       textStyle: MaterialStateProperty.all<TextStyle>(
-          const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500)));
+          const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500, fontFamily: 'Inter')));
 
   final navigationButton = ButtonStyle(
       elevation: MaterialStateProperty.all<double>(0),
@@ -60,7 +62,7 @@ class AppButtons {
           const EdgeInsets.symmetric(horizontal: 50.0, vertical: 20.0)),
       backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
       textStyle: MaterialStateProperty.all<TextStyle>(
-          const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500)));
+          const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500, fontFamily: 'Inter')));
 
   AppButtons();
 }

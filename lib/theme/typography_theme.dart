@@ -48,5 +48,11 @@ class AppTypo {
       fontSize: 14,
       fontWeight: FontWeight.w600);
 
+  final scaffoldTitle = TextStyle(
+      fontFamily: 'Syne',
+      color: AppTheme.colors.white,
+      fontSize: 18,
+      fontWeight: FontWeight.w700);
+
   AppTypo();
 }

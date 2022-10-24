@@ -18,7 +18,8 @@ Widget primaryFullButton(String text, Function() onPressed) {
             style: TextStyle(
                 color: AppTheme.colors.purple,
                 fontSize: 16.0,
-                fontWeight: FontWeight.w500)),
+                fontWeight: FontWeight.w500,
+                fontFamily: 'Inter')),
         onPressed: onPressed,
       ));
 }

@@ -27,6 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
       drawer: NavigationDrawerWidget(),
       appBar: AppBar(
         title: const Text('Meu Perfil'),  
+        titleTextStyle: AppTheme.typo.scaffoldTitle,
         centerTitle: true,
       ),
       body: FutureBuilder<UserDatabase?>(
@@ -56,7 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              radius: 40,
+              radius: 60,
               backgroundImage: NetworkImage(user.photo!),
             ),
             addVerticalSpace(10),
@@ -66,20 +67,24 @@ class _ProfilePageState extends State<ProfilePage> {
               children: [
                 Text(
                   user.name!,
-                  style: AppTheme.typo.title,
+                  style: const TextStyle(
+                    fontFamily: 'Syne',
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700
+                  ),
                 ),
                 addHorizontalSpace(10),
-                Icon(Icons.verified, color: AppTheme.colors.purple, size: 20)
+                Icon(Icons.verified, color: AppTheme.colors.purple, size: 22)
               ],
             ),
-            addVerticalSpace(10),
+            addVerticalSpace(30),
             buildInfoIcon(Icons.mail_outline, user.email!),
             addVerticalSpace(10),
             buildInfoIcon(Icons.workspace_premium_outlined,
-                user.score.toString() + ' Pontos'),
+                'Total de Pontos: ' + user.score.toString()),
             addVerticalSpace(10),
             buildInfoIcon(
-                Icons.person_outline, Utils.dateConverter(user.creationDate!))
+                Icons.person_outline, 'Usuário desde: ' + Utils.dateConverter(user.creationDate!))
           ],
         ),
       );
@@ -101,11 +106,13 @@ class _ProfilePageState extends State<ProfilePage> {
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
-      Icon(icon, color: AppTheme.colors.purple),
+      Icon(icon, size: 25, color: AppTheme.colors.purple),
       addHorizontalSpace(10),
       Text(
         text,
-        style: AppTheme.typo.normal,
+        style: const TextStyle(
+          fontSize: 17
+        ),
       )
     ]);
 }

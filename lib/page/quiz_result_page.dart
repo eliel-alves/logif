@@ -35,28 +35,29 @@ class QuizResultPage extends StatelessWidget {
 
     debugPrint('Arguments: ' + arguments.toString());
 
-    if (arguments.doc == null) {
-      Navigator.pushNamed(context, '/');
-    }
+    // if (arguments == null) {
+    //   Navigator.pushNamed(context, '/');
+    // }
 
     // Nome da categoria
     final catName = arguments.doc.get('name');
-    // Indice da categoria (vetor de pontuações do usuario)
+    // Índice da categoria (vetor de pontuações do usuário)
     final catIndex = arguments.doc.get('order');
-    // Maximo de pontos
+    // Máximo de pontos
     final catMaxPoints = arguments.doc.get('value_points');
 
     // Calcula a pontuação atingida pelo usuário
     int earnedScore =
         ((catMaxPoints / arguments.total) * arguments.corrects).round();
 
-    debugPrint('maximo de pontos' + catMaxPoints.toString());
+    debugPrint('máximo de pontos' + catMaxPoints.toString());
     debugPrint('index da cat: ' + catIndex.toString());
     debugPrint('pontos ganhos: ' + earnedScore.toString());
 
     return Scaffold(
         appBar: AppBar(
           title: Text('Quiz: $catName'),
+          titleTextStyle: AppTheme.typo.scaffoldTitle,
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
@@ -77,7 +78,7 @@ class QuizResultPage extends StatelessWidget {
                     var userScores = user.get('scores');
                     bool higher;
 
-                    // Caso a pontuação obtida seja maior que a pontuação do usuario
+                    // Caso a pontuação obtida seja maior que a pontuação do usuário
                     if (earnedScore > userScores[catIndex]) {
                       higher = true;
 
@@ -88,13 +89,13 @@ class QuizResultPage extends StatelessWidget {
                       // Adiciona a pontuação obtida no array de pontos
                       userScores[catIndex] = earnedScore;
 
-                      debugPrint('pontuacao total a ser adicionada: ' +
+                      debugPrint('pontuação total a ser adicionada: ' +
                           userTotalScore.toString());
 
                       // Atualiza informações no BD
                       user.reference.update(
                           {'score': userTotalScore, 'scores': userScores});
-                      debugPrint('pontuacao adicionada!');
+                      debugPrint('pontuação adicionada!');
                     } else {
                       higher = false;
                     }
@@ -149,7 +150,7 @@ Widget _buildResult(context, corrects, total, score, higher) {
       addVerticalSpace(30),
       Badge(
         elevation: 0,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         badgeContent: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -157,7 +158,7 @@ Widget _buildResult(context, corrects, total, score, higher) {
                 color: AppTheme.colors.purple, size: 30),
             addHorizontalSpace(5),
             Text(
-              score.toString() + ' pontos',
+              '+' + score.toString() + ' pontos',
               style: AppTheme.typo.subtitle,
             ),
           ],
@@ -185,14 +186,14 @@ Widget _buildResult(context, corrects, total, score, higher) {
       SizedBox(
           width: double.infinity,
           child: ElevatedButton(
-              onPressed: () {
-                // Navigator.of(context).push(MaterialPageRoute(
-                //   builder: (context) => const HomePage(),
-                // ));
-                Navigator.pushNamed(context, '/');
-              },
-              style: AppTheme.buttons.buttonPrimary,
-              child: const Text('Entendido'))),
+            onPressed: () {
+              // Navigator.of(context).push(MaterialPageRoute(
+              //   builder: (context) => const HomePage(),
+              // ));
+              Navigator.pushNamed(context, '/');
+            },
+            style: AppTheme.buttons.buttonPrimary,
+            child: const Text('Entendido'))),
     ],
   );
 }

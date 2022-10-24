@@ -103,6 +103,7 @@ class _QuizState extends State<Quiz> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Quiz: ${widget.doc.get('name')}'),
+        titleTextStyle: AppTheme.typo.scaffoldTitle,
         centerTitle: true,
       ),
       body: SingleChildScrollView(
